@@ -1,0 +1,313 @@
+<div class="description-container">
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Left Side - Image Gallery -->
+        <div class="image-section">
+            <button class="nav-btn prev" (click)="previousImage()">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <img [src]="getImageUrl()" [alt]="apartment?.name">
+            <button class="nav-btn next" (click)="nextImage()">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <button class="virtual-tour-btn" *ngIf="apartment?.virtualTourImage">Virtual Tour</button>
+        </div>
+
+        <!-- Right Side - Details -->
+        <div class="details-section">
+            <div class="details-header">
+                <img src="" alt="QuickRent" class="details-logo">
+                <div class="header-actions">
+                    <button class="icon-btn bookmark-btn" (click)="toggleBookmark()">
+                        <i class="far fa-bookmark" *ngIf="!isBookmarked"></i>
+                        <i class="fas fa-bookmark" *ngIf="isBookmarked"></i>
+                    </button>
+                    <button class="icon-btn">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="apartment-info">
+                <h2>{{apartment?.name}}</h2>
+                <p class="location">* {{apartment?.location}}</p>
+            </div>
+
+            <div class="action-buttons">
+                <button class="chat-btn" (click)="toggleChat()">Chat Landlord</button>
+                <button class="reserve-btn" (click)="toggleReserveModal()">Reserve Now</button>
+            </div>
+
+            <div class="content-tabs">
+                <button class="tab" [class.active]="activeTab === 'property'" (click)="setActiveTab('property')">Property</button>
+                <button class="tab" [class.active]="activeTab === 'description'" (click)="setActiveTab('description')">Description</button>
+                <button class="tab" [class.active]="activeTab === 'ratings'" (click)="setActiveTab('ratings')">Ratings ></button>
+            </div>
+
+            <div class="tab-content" [ngSwitch]="activeTab">
+                <!-- Property Tab -->
+                <div class="property-details" *ngSwitchCase="'property'">
+                    <p><i class="fas fa-square"></i> {{apartment?.area || '0 sq ft'}}</p>
+                    <p><i class="fas fa-bed"></i> {{apartment?.bedrooms}} Bedrooms</p>
+                    <p><i class="fas fa-bath"></i> {{apartment?.bathrooms}} Bathrooms</p>
+                    <p><i class="fas fa-car"></i> {{apartment?.features?.includes('hasParking') ? '1' : '0'}} Parking</p>
+                    <p class="price">₱{{apartment?.price}}/month</p>
+                    <div class="features-list">
+                        <p *ngIf="apartment?.features?.includes('furnished')"><i class="fas fa-couch"></i> Furnished</p>
+                        <p *ngIf="apartment?.features?.includes('unfurnished')"><i class="fas fa-box-open"></i> Unfurnished</p>
+                        <p *ngIf="apartment?.features?.includes('petFriendly')"><i class="fas fa-paw"></i> Pet Friendly</p>
+                    </div>
+                </div>
+
+                <!-- Description Tab -->
+                <div class="property-details" *ngSwitchCase="'description'">
+                    <p class="description">{{apartment?.comments || 'No description available.'}}</p>
+                    <div class="address-details" *ngIf="apartment?.address">
+                        <h4>Address Details</h4>
+                        <p>{{apartment?.address?.fullAddress}}</p>
+                        <p>{{apartment?.address?.city}}, {{apartment?.address?.state}} {{apartment?.address?.zipCode}}</p>
+                        <p>{{apartment?.address?.country}}</p>
+                    </div>
+                </div>
+
+                <!-- Ratings Tab -->
+                <div class="ratings-section" *ngSwitchCase="'ratings'">
+                    <!-- Rating Button to Open Modal - Smaller Size -->
+                    <button class="rate-property-btn small" (click)="toggleRatingModal()">
+                        <i class="fas fa-star"></i> Rate
+                    </button>
+                    
+                    <!-- Rating Stats - Smaller Size -->
+                    <div class="rating-stats compact">
+                        <div class="rating-average">
+                            <span class="rating-number">{{apartment?.rating || 0 | number:'1.1-1'}}</span>
+                            <div class="stars-display">
+                                <div class="stars-filled" [style.width.%]="(apartment?.rating || 0) * 20">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="stars-empty">
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                            <span class="total-ratings">{{apartment?.totalRatings || 0}} reviews</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Reviews Section -->
+                    <div class="reviews-section">
+                        <h2>Reviews</h2>
+                        
+                        <div class="reviews-container">
+                            <!-- Add a scrollable container for reviews -->
+                            <div class="reviews-scrollable">
+                                <div class="review-card" *ngFor="let review of ratings">
+                                    <div class="review-header">
+                                        <div class="reviewer-info">
+                                            <div class="avatar">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            <div class="reviewer-details">
+                                                <div class="reviewer-name">{{review.userName || 'Anonymous'}}</div>
+                                                <div class="review-date">{{review.timestamp | date:'mediumDate'}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="review-rating">
+                                            <i class="fas fa-star" *ngFor="let star of [1,2,3,4,5]" [class.active]="star <= review.rating"></i>
+                                        </div>
+                                    </div>
+                                    <div class="review-content">
+                                        {{review.comment}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Add Review Form -->
+                        <div class="no-reviews" *ngIf="!ratings || ratings.length === 0">
+                            <i class="far fa-comment-alt"></i>
+                            <p>No reviews yet. Be the first to review this property!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reservation Modal -->
+<div class="reservation-modal" *ngIf="showReserveModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Reserve Property</h2>
+            <button class="close-btn" (click)="toggleReserveModal()">×</button>
+        </div>
+        
+        <div class="modal-body">
+            <div class="property-summary" *ngIf="apartment">
+                <h3>{{apartment.name}}</h3>
+                <p class="location"><i class="fas fa-map-marker-alt"></i> {{apartment.location}}</p>
+                <p class="price">₱{{apartment.price | number:'1.0-0'}}/month</p>
+            </div>
+
+            <div class="date-selection">
+                <h4>Select Move-in and Move-out Dates</h4>
+                <div class="calendar-container">
+                    <!-- Two separate date pickers for clearer selection -->
+                    <div class="calendar-section">
+                        <h5>Move-in Date</h5>
+                        <mat-calendar 
+                            [selected]="startDate"
+                            [minDate]="minDate"
+                            [maxDate]="maxDate"
+                            (selectedChange)="onMoveInDateSelected($event)">
+                        </mat-calendar>
+                        <div class="date-display">
+                            <span class="date-label">Selected</span>
+                            <span class="date-value">{{startDate ? (startDate | date:'mediumDate') : 'Select date'}}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-section">
+                        <h5>Move-out Date</h5>
+                        <mat-calendar 
+                            [selected]="endDate"
+                            [minDate]="startDate || minDate"
+                            [maxDate]="maxDate"
+                            (selectedChange)="onMoveOutDateSelected($event)">
+                        </mat-calendar>
+                        <div class="date-display">
+                            <span class="date-label">Selected</span>
+                            <span class="date-value">{{endDate ? (endDate | date:'mediumDate') : 'Select date'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="price-summary" *ngIf="totalPrice > 0">
+                <h4>Price Summary</h4>
+                <div class="price-details">
+                    <p>
+                        <span>Monthly Rate</span>
+                        <span>₱{{apartment?.price | number:'1.0-0'}}</span>
+                    </p>
+                    <p>
+                        <span>Duration</span>
+                        <span>{{(totalPrice / (apartment?.price || 1)) | number:'1.1-1'}} months</span>
+                    </p>
+                    <p class="total">
+                        <span>Total Amount</span>
+                        <span>₱{{totalPrice | number:'1.0-0'}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="cancel-btn" (click)="toggleReserveModal()">Cancel</button>
+            <button 
+                class="submit-btn" 
+                [disabled]="!startDate || !endDate || totalPrice <= 0"
+                (click)="submitReservation()">
+                Submit Reservation
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Chat Modal -->
+<div class="chat-modal" *ngIf="showChatModal">
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="chat-user-info">
+                <img [src]="apartment?.ownerImage || 'assets/profile.jpg'" alt="Land Owner" class="user-avatar">
+                <div class="user-details">
+                    <div class="user-name">{{apartment?.ownerName || 'Property Owner'}}</div>
+                    <div class="user-status">Online</div>
+                </div>
+            </div>
+            <button class="close-btn" (click)="toggleChat()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="chat-messages" #messagesContainer>
+            <div *ngFor="let message of chatMessages" 
+                 [ngClass]="{'message': true, 'sent': message.sent, 'received': !message.sent}">
+                <div class="message-content">
+                    <div class="message-text">{{ message.text }}</div>
+                <div class="message-time">{{ message.time }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-input">
+            <input type="text" 
+                   placeholder="Type your message here..." 
+                   [(ngModel)]="newMessage" 
+                   (keyup.enter)="sendMessage()">
+            <button class="send-btn" [disabled]="!newMessage.trim()" (click)="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Thank You Modal -->
+<div class="thank-you-modal" *ngIf="showThankYouModal">
+    <div class="modal-content">
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h3>Thank you for your review!</h3>
+        <p>Your feedback helps others make better decisions.</p>
+        <button class="close-btn" (click)="closeThankYouModal()">Close</button>
+    </div>
+</div>
+
+<!-- Rating Modal -->
+<div class="rating-modal" *ngIf="showRatingModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Rate This Property</h3>
+            <button class="close-btn" (click)="toggleRatingModal()">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="rating-form">
+                <div class="star-rating-container">
+                    <p>How would you rate your experience?</p>
+                    <div class="star-rating">
+                        <i class="fas fa-star" 
+                           *ngFor="let star of [1,2,3,4,5]" 
+                           [class.active]="star <= userRating"
+                           (click)="setRating(star)"></i>
+                    </div>
+                    <div class="rating-value" *ngIf="userRating > 0">
+                        Your rating: <strong>{{userRating}}/5</strong>
+                    </div>
+                </div>
+                <p>Share your experience:</p>
+                <textarea 
+                    placeholder="Tell others what you liked or didn't like about this property..." 
+                    [(ngModel)]="userComment"
+                    class="rating-comment"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="cancel-btn" (click)="toggleRatingModal()">Cancel</button>
+            <button class="submit-rating-btn" 
+                    type="button"
+                    [disabled]="!userRating || !userComment.trim()" 
+                    (click)="submitRating()">
+                Submit Review
+            </button>
+        </div>
+    </div>
+</div>

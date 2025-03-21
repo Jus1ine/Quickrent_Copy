@@ -1,0 +1,66 @@
+<div class="login-container">
+  <div class="login-content">
+    <h1>Welcome Back!</h1>
+    <p class="subtitle">Enter your Credentials to access your account</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <div class="form-group">
+        <label for="email"><b>Email Address</b></label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+          placeholder="Enter your email"
+        >
+        <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+          <div *ngIf="f['email'].errors['required']">Email is required</div>
+          <div *ngIf="f['email'].errors['email']">Please enter a valid email</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password"><b>Password</b></label>
+        <div class="password-field">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+            placeholder="Enter your password"
+          >
+          <button type="button" class="toggle-password" (click)="togglePasswordVisibility()">
+            <img [src]="showPassword ? 'assets/Unhide.png' : 'assets/Hide.png'" alt="Toggle password visibility">
+          </button>
+        </div>
+        <div class="password-links">
+          <a routerLink="/forgot-password" class="forgot-password">Forgot Password?</a>
+        </div>
+        <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+          <div *ngIf="f['password'].errors['required']">Password is required</div>
+          <div *ngIf="f['password'].errors['minlength']">Password must be at least 8 characters</div>
+        </div>
+      </div>
+
+      <div class="form-options">
+        <div class="remember-me">
+          <input type="checkbox" id="remember" formControlName="remember">
+          <label for="remember"><b>Agreements</b></label>
+        </div>
+      </div>
+
+      <button type="submit" class="login-button">Login</button>
+
+      <div class="signup-prompt">
+        Don't have an account? <a routerLink="/signup" class="signup-link">Sign Up</a>
+      </div>
+    </form>
+  </div>
+  
+  <div class="login-image">
+    <img src="assets/Rent.png" alt="QuickRent Illustration">
+  </div>
+</div>
+

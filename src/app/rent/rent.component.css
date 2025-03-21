@@ -1,0 +1,526 @@
+.filter-bar {
+    background: #00BFB3;
+    display: flex;
+    width: 100vw;
+    margin-top: 80px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+}
+
+.content-wrapper {
+    position: relative;
+    z-index: 1;
+    margin-top: 40px;
+    padding: 0 20px;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    gap: 8px;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    flex: 1;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+}
+
+.filter-group:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.filter-group i {
+    font-size: 14px;
+}
+
+.filter-group span {
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.filter-group span:last-child {
+    opacity: 0.8;
+    margin-left: 4px;
+}
+
+.apply-btn {
+    padding: 8px 24px;
+    background: white;
+    color: #00BFB3;
+    border: none;
+    border-radius: 4px;
+    margin: 8px 16px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.sort-section {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sort-select {
+    padding: 8px 16px;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    color: #666;
+    min-width: 150px;
+}
+
+.apartment-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.apartment-card {
+    background: white;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+.card-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    z-index: 2;
+}
+
+.property-type {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+}
+
+.type-badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.type-badge i {
+    margin-right: 5px;
+    font-size: 14px;
+    color: #00BFB3;
+}
+
+.apartment-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.apartment-details {
+    padding: 16px;
+}
+
+.apartment-details h4 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.location {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.features span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    font-size: 14px;
+}
+
+.features i {
+    color: #00BFB3;
+}
+
+.price-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px solid #E0E0E0;
+}
+
+.price {
+    color: #00BFB3;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.check-btn {
+    background: #00BFB3;
+    color: white;
+    border: none;
+    padding: 8px 24px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 40px 0;
+}
+
+.page-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #00BFB3;
+    background: white;
+    color: #00BFB3;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.page-btn.active {
+    background: #00BFB3;
+    color: white;
+}
+
+.currency-toggle {
+    display: flex;
+    gap: 8px;
+    padding: 8px 16px;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    z-index: inherit;
+}
+
+.currency-toggle button {
+    padding: 4px 12px;
+    border: 1px solid #00BFB3;
+    background: white;
+    color: #00BFB3;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.currency-toggle button.active {
+    background: #00BFB3;
+    color: white;
+}
+
+.filter-group.active {
+    z-index: 1000;
+}
+
+.filter-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 200px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    display: none;
+    z-index: 1001;
+    margin-top: 8px;
+}
+
+.filter-dropdown.show {
+    display: block;
+}
+
+.dropdown-content {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    z-index: inherit;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #333;
+}
+
+.dropdown-item:hover {
+    background: #f5f5f5;
+    color: #00BFB3;
+}
+
+.dropdown-item i {
+    margin-right: 8px;
+    color: #00BFB3;
+    width: 16px;
+}
+
+@keyframes dropdownFade {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.filter-dropdown::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    background: white;
+    transform: translateX(-50%) rotate(45deg);
+    box-shadow: -2px -2px 5px rgba(0,0,0,0.04);
+    z-index: inherit;
+}
+
+.content-wrapper .filter-dropdown {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .apartment-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .apartment-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Chat toggle button */
+.message-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: #00BFB3;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.message-icon img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+}
+
+/* Chatbot styles */
+.chat-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 250px;
+    background: white;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    z-index: 1000;
+    display: none;
+}
+
+.chat-widget.open {
+    display: block;
+}
+
+.chat-header {
+    background: #00BFB3;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.bot-avatar {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+}
+
+.bot-name {
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.close-btn {
+    color: white;
+    font-size: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.chat-messages {
+    padding: 12px;
+    height: 300px;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.chat-messages::-webkit-scrollbar {
+    display: none;
+}
+
+.message {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.message.user {
+    flex-direction: row-reverse;
+}
+
+.message-avatar {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+}
+
+.message-content {
+    background: #f0f2f5;
+    padding: 6px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    max-width: 70%;
+}
+
+.message.user .message-content {
+    background: #00BFB3;
+    color: white;
+}
+
+.message-time {
+    font-size: 9px;
+    color: #666;
+    margin-top: 2px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 6px;
+    padding: 0 12px 12px;
+}
+
+.option-btn {
+    background: #f8f9fa;
+    border: none;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.option-btn:hover {
+    background: #f0f2f5;
+}
+
+/* Add this to your existing CSS */
+.rating-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.stars {
+    display: flex;
+    gap: 2px;
+}
+
+.stars i {
+    color: #ddd;
+    font-size: 14px;
+}
+
+.stars i.active {
+    color: #FFD700;
+}
+
+.rating-count {
+    font-size: 12px;
+    color: #666;
+}
+
+.property-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.property-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.property-card:hover .property-image img {
+    transform: scale(1.05);
+}

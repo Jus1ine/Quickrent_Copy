@@ -1,0 +1,164 @@
+/* Add styles for the top navigation */
+nav {
+    background-color: #00BFB3; /* Adjusted to match the image color */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    height: 60px; /* Fixed height for the navbar */
+    width: 100vw; /* Full viewport width */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    min-width: 200px; /* Ensure space for links */
+}
+
+.nav-left {
+    justify-content: flex-start;
+}
+
+.nav-right {
+    justify-content: flex-end;
+}
+
+.logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.logo img {
+    height: 40px; /* Adjust as needed */
+    width: auto;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer; /* Add this to make the logout link look clickable */
+}
+
+/* Add a specific style for the logout link if you want to distinguish it */
+nav a:last-child {
+    margin-right: 0; /* Remove right margin from last item */
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Account dropdown styles */
+.account-dropdown {
+    position: relative;
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.account-button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.account-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.profile-img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 8px;
+}
+
+.account-text {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    width: 240px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    z-index: 1001;
+    overflow: hidden;
+}
+
+.user-info {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+}
+
+.dropdown-profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-weight: 500;
+    font-size: 14px;
+    color: #333;
+}
+
+.user-email {
+    font-size: 12px;
+    color: #666;
+    margin-top: 2px;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: #eee;
+    margin: 5px 0;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 10px 15px;
+    color: #333 !important;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.2s;
+    margin: 0 !important;
+}
+
+.dropdown-item:hover {
+    background-color: #f5f5f5;
+    text-decoration: none !important;
+}
+
+.dropdown-item i {
+    margin-right: 10px;
+    width: 16px;
+    text-align: center;
+}

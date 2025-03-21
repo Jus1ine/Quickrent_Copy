@@ -1,0 +1,41 @@
+<nav>
+    <div class="nav-left">
+        <a routerLink="/rent">Rent</a>
+        <a href="#">Agent Finder</a>
+    </div>
+    <div class="logo">
+        <a routerLink="/home">
+            <img src="/assets/quickrent.png" alt="QuickRent">
+        </a>
+    </div>
+    <div class="nav-right">
+        <a href="#">Help</a>
+        <div class="account-dropdown">
+            <div class="account-button" (click)="toggleDropdown()">
+                <img [src]="profileImage" alt="Profile" class="profile-img">
+                <span class="account-text">{{userName}}</span>
+            </div>
+            
+            <div class="dropdown-menu" *ngIf="showDropdown">
+                <div class="user-info">
+                    <img [src]="profileImage" alt="Profile" class="dropdown-profile-img">
+                    <div class="user-details">
+                        <span class="user-name">{{userName}}</span>
+                        <span class="user-email">{{userEmail}}</span>
+                    </div>
+                </div>
+                <div class="dropdown-divider"></div>
+                <a (click)="navigateToProfile()" class="dropdown-item">
+                    <i class="fas fa-user"></i> Profile
+                </a>
+                <a (click)="navigateToSettings()" class="dropdown-item">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <div class="dropdown-divider"></div>
+                <a (click)="logout()" class="dropdown-item">
+                    <i class="fas fa-sign-out-alt"></i> Log Out
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>

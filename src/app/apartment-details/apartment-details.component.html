@@ -1,0 +1,61 @@
+<div class="apartment-details-container" *ngIf="apartment">
+  <div class="back-button">
+    <button [routerLink]="['/rent']">← Back to Listings</button>
+  </div>
+
+  <div class="apartment-header">
+    <h1>{{ apartment.name }}</h1>
+    <p class="location">{{ apartment.location }}</p>
+  </div>
+
+  <div class="apartment-content">
+    <div class="main-image">
+      <img [src]="apartment.image" [alt]="apartment.name">
+    </div>
+
+    <div class="details-section">
+      <div class="price-section">
+        <h2>₱{{ apartment.price }}</h2>
+        <p>per month</p>
+      </div>
+
+      <div class="features">
+        <div class="feature">
+          <span class="feature-label">Bedrooms:</span>
+          <span class="feature-value">{{ apartment.bedrooms }}</span>
+        </div>
+        <div class="feature">
+          <span class="feature-label">Bathrooms:</span>
+          <span class="feature-value">{{ apartment.bathrooms }}</span>
+        </div>
+        <div class="feature">
+          <span class="feature-label">Square Feet:</span>
+          <span class="feature-value">{{ apartment.squareFeet }}</span>
+        </div>
+        <div class="feature">
+          <span class="feature-label">Parking Spaces:</span>
+          <span class="feature-value">{{ apartment.parking }}</span>
+        </div>
+      </div>
+
+      <div class="amenities">
+        <h3>Amenities</h3>
+        <ul>
+          <li *ngIf="apartment.petFriendly === 'yes'">Pet Friendly</li>
+          <li *ngIf="apartment.hasParking === 'yes'">Parking Available</li>
+          <li *ngIf="apartment.furnished === 'yes'">Furnished</li>
+        </ul>
+      </div>
+
+      <div class="description">
+        <h3>Description</h3>
+        <p>{{ apartment.description }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="not-found" *ngIf="!apartment">
+  <h2>Apartment not found</h2>
+  <button [routerLink]="['/rent']">Return to Listings</button>
+</div>

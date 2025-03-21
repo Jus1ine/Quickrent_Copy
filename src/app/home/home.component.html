@@ -1,0 +1,98 @@
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Unlock Your<br>Ideal Living</h1>
+        <p>Discover the Perfect<br>Apartment for Your Lifestyle</p>
+        <div class="search-box">
+            <input type="text" 
+                   [(ngModel)]="searchQuery" 
+                   (keyup.enter)="search()"
+                   placeholder="Search location..."
+                   list="locationsList">
+            <datalist id="locationsList">
+                <option *ngFor="let apartment of apartments" [value]="apartment.location">
+            </datalist>
+            <button (click)="search()"><i class="fas fa-search"></i></button>
+        </div>
+    </div>
+</div>
+
+<div class="recommendations">
+    <div class="section-header">
+        <button class="discover-btn" routerLink="/rent">DISCOVER</button>
+        <h3>Best recommendation</h3>
+    </div>
+
+    <div class="property-grid">
+        <div class="apartment-card" *ngFor="let property of filteredApartments" [id]="'apartment-' + property.id" [class.highlighted]="property.id === recentlyRatedId">
+            <div class="card-tag">For Rent</div>
+            <img [src]="property.imageUrl || (property.images && property.images[0]) || 'assets/default-image.jpg'" [alt]="property.name">
+            <div class="apartment-details">
+                <h4>{{property.name}}</h4>
+                <p class="location">{{property.location}}</p>
+                
+                <!-- Rating display -->
+                <div class="rating-display" *ngIf="property.rating">
+                    <div class="stars">
+                        <i class="fas fa-star" *ngFor="let star of [1,2,3,4,5]" [class.active]="star <= (property.rating || 0)"></i>
+                    </div>
+                    <span class="rating-count">{{property.totalRatings || 0}} reviews</span>
+                </div>
+                
+                <div class="features">
+                    <span><i class="fas fa-square"></i> {{property.area}}</span>
+                    <span><i class="fas fa-bed"></i> {{property.bedrooms}} Bedrooms</span>
+                    <span><i class="fas fa-bath"></i> {{property.bathrooms}} Bathrooms</span>
+                    <span><i class="fas fa-car"></i> {{property.features.includes('hasParking') ? '1' : '0'}} Parking</span>
+                </div>
+                <div class="price-section">
+                    <span class="price">₱{{property.price}}</span>
+                    <button class="check-btn" (click)="navigateToDescription(property.id)">Check</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #noRatings>
+        <div class="no-ratings-message">
+            <p>No rated properties yet. Be the first to rate!</p>
+            <button class="discover-btn" routerLink="/rent">Browse All Properties</button>
+        </div>
+    </ng-template>
+</div>
+
+<style>
+    .apartment-card.recently-rated {
+        animation: highlight 3s ease-out;
+    }
+
+    @keyframes highlight {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 rgba(255, 215, 0, 0);
+        }
+        20% {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+        }
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 rgba(255, 215, 0, 0);
+        }
+    }
+
+    .no-ratings-message {
+        text-align: center;
+        padding: 2rem;
+        background: #f5f5f5;
+        border-radius: 8px;
+        margin: 1rem 0;
+    }
+
+    .no-ratings-message p {
+        margin-bottom: 1rem;
+        color: #666;
+    }
+</style>
+
+       
+

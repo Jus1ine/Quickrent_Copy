@@ -1,0 +1,193 @@
+<div class="upload-container">
+    <div class="back-arrow" (click)="navigateBack()">
+        <i class="fas fa-arrow-left"></i> Back
+    </div>
+    <h1 class="page-title">Upload Rent</h1>
+    
+    <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()" class="upload-form">
+        <div class="form-left">
+            <div class="form-group">
+                <label>Type</label>
+                <select formControlName="type">
+                    <option value="" disabled selected>Select Property Type</option>
+                    <option value="apartment">Apartment</option>
+                    <option value="house">House</option>
+                    <option value="condo">Condo</option>
+                </select>
+                <div class="error" *ngIf="uploadForm.get('type')?.touched && uploadForm.get('type')?.invalid">
+                    Please select a property type
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Name Of Property</label>
+                <input type="text" formControlName="propertyName" placeholder="Enter Property Name">
+                <div class="error" *ngIf="uploadForm.get('propertyName')?.touched && uploadForm.get('propertyName')?.invalid">
+                    Property name is required
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Price</label>
+                <div class="price-input-group">
+                    <select formControlName="currency" class="currency-select">
+                        <option value="PHP">₱</option>
+                        <option value="USD">$</option>
+                    </select>
+                    <input type="number" 
+                           formControlName="price" 
+                           placeholder="Enter Price"
+                           min="0"
+                           class="form-control">
+                </div>
+                <div class="error" *ngIf="uploadForm.get('price')?.touched && uploadForm.get('price')?.errors">
+                    <div *ngIf="uploadForm.get('price')?.errors?.['required']">Price is required</div>
+                    <div *ngIf="uploadForm.get('price')?.errors?.['min']">Price cannot be negative</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Bedroom</label>
+                <input type="number" 
+                       formControlName="bedroom" 
+                       placeholder="Number of Bedrooms"
+                       min="0"
+                       class="form-control">
+                <div class="error" *ngIf="uploadForm.get('bedroom')?.touched && uploadForm.get('bedroom')?.errors">
+                    <div *ngIf="uploadForm.get('bedroom')?.errors?.['required']">Number of bedrooms is required</div>
+                    <div *ngIf="uploadForm.get('bedroom')?.errors?.['min']">Cannot be negative</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Bathroom</label>
+                <input type="number" 
+                       formControlName="bathroom" 
+                       placeholder="Number of Bathrooms"
+                       min="0"
+                       class="form-control">
+                <div class="error" *ngIf="uploadForm.get('bathroom')?.touched && uploadForm.get('bathroom')?.errors">
+                    <div *ngIf="uploadForm.get('bathroom')?.errors?.['required']">Number of bathrooms is required</div>
+                    <div *ngIf="uploadForm.get('bathroom')?.errors?.['min']">Cannot be negative</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Features</label>
+                <div class="features-list">
+                    <label class="feature-item" [class.selected]="uploadForm.get('furnished')?.value">
+                        <input type="checkbox" formControlName="furnished" hidden>
+                        <i class="fas fa-couch"></i>
+                        <span>Furnished</span>
+                    </label>
+                    <label class="feature-item" [class.selected]="uploadForm.get('unfurnished')?.value">
+                        <input type="checkbox" formControlName="unfurnished" hidden>
+                        <i class="fas fa-building"></i>
+                        <span>Unfurnished</span>
+                    </label>
+                    <label class="feature-item" [class.selected]="uploadForm.get('petFriendly')?.value">
+                        <input type="checkbox" formControlName="petFriendly" hidden>
+                        <i class="fas fa-paw"></i>
+                        <span>Pet Friendly</span>
+                    </label>
+                    <label class="feature-item" [class.selected]="uploadForm.get('hasParking')?.value">
+                        <input type="checkbox" formControlName="hasParking" hidden>
+                        <i class="fas fa-parking"></i>
+                        <span>With Parking</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Comments</label>
+                <textarea formControlName="comments" placeholder="Additional Comments"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Upload Property Image</label>
+                <div class="upload-box" (click)="propertyImageInput.click()" (dragover)="$event.preventDefault()" (drop)="$event.preventDefault(); onPropertyImagesSelected($event)">
+                    <div class="upload-placeholder" *ngIf="propertyImages.length < 5">
+                        <i class="fas fa-image"></i>
+                        <span>Drop your file here</span>
+                        <button type="button" class="choose-btn">Choose File</button>
+                    </div>
+                    <input #propertyImageInput type="file" hidden multiple accept="image/*" (change)="onPropertyImagesSelected($event)">
+                </div>
+                <div class="upload-limit">You can only upload up to 5 images</div>
+                <div class="image-previews">
+                    <div class="image-preview" *ngFor="let image of propertyImages; let i = index">
+                        <img [src]="image.url" alt="Property preview">
+                        <button class="remove-image" (click)="removeImage(i)">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-right">
+            <div class="form-group">
+                <label>Virtual Image Upload</label>
+                <div class="upload-box" (click)="virtualImageInput.click()" (dragover)="$event.preventDefault()" (drop)="$event.preventDefault(); onVirtualImageSelected($event)">
+                    <div class="upload-placeholder" *ngIf="!virtualImage">
+                        <i class="fas fa-image"></i>
+                        <span>Drop your file here</span>
+                        <button type="button" class="choose-btn">Choose File</button>
+                    </div>
+                    <div class="image-preview" *ngIf="virtualImage">
+                        <img [src]="virtualImage.url" alt="Virtual tour preview">
+                        <button class="remove-image" (click)="removeVirtualImage()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <input #virtualImageInput type="file" hidden accept="image/*" (change)="onVirtualImageSelected($event)">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Country</label>
+                <input type="text" formControlName="country" placeholder="Enter Country">
+                <div class="error" *ngIf="uploadForm.get('country')?.touched && uploadForm.get('country')?.invalid">
+                    Country is required
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>State</label>
+                <input type="text" formControlName="state" placeholder="Enter State">
+                <div class="error" *ngIf="uploadForm.get('state')?.touched && uploadForm.get('state')?.invalid">
+                    State is required
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>City</label>
+                <select formControlName="city" class="form-control">
+                    <option value="" disabled>Select City</option>
+                    <option *ngFor="let city of cities" [value]="city">{{city}}</option>
+                </select>
+                <div class="error" *ngIf="uploadForm.get('city')?.touched && uploadForm.get('city')?.invalid">
+                    Please select a city
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Zip Code</label>
+                <input type="text" formControlName="zipCode" placeholder="Enter Zip Code">
+                <div class="error" *ngIf="uploadForm.get('zipCode')?.touched && uploadForm.get('zipCode')?.invalid">
+                    Zip code is required
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Address</label>
+                <textarea formControlName="address" placeholder="Enter Full Address"></textarea>
+                <div class="error" *ngIf="uploadForm.get('address')?.touched && uploadForm.get('address')?.invalid">
+                    Address is required
+                </div>
+            </div>
+
+            <button type="submit" class="upload-btn">Upload Rent</button>
+        </div>
+    </form>
+</div>

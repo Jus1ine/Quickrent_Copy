@@ -1,0 +1,342 @@
+<div class="account-container">
+    <div class="back-arrow" (click)="navigateToRent()">
+        <i class="fas fa-arrow-left"></i>
+    </div>
+
+    <div class="chat-card">
+        <div class="profile-section">
+            <div class="profile-left">
+                <div class="profile-img-container">
+                    <img [src]="previewImage" alt="Profile" class="profile-img">
+                    <input 
+                        type="file" 
+                        id="profile-upload" 
+                        (change)="onChangeProfile($event)" 
+                        accept="image/*"
+                        hidden
+                    >
+                </div>
+                <div class="profile-details">
+                    <div class="name" *ngIf="!isEditingName">{{userName}}</div>
+                    <input 
+                        *ngIf="isEditingName" 
+                        type="text" 
+                        [(ngModel)]="userName" 
+                        class="name-input"
+                        (keyup.enter)="saveName()"
+                        autofocus
+                    >
+                    <div class="type">{{userType}}</div>
+                    <div class="email">{{userEmail}}</div>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <button class="edit-btn" (click)="openEditModal()">Edit</button>
+            </div>
+        </div>
+
+        <button *ngIf="isLandowner()" class="upload-btn" (click)="navigateToUpload()">Upload Apartment</button>
+
+        <div class="nav-tabs">
+            <button [class.active]="activeTab === 'messages'" (click)="setActiveTab('messages')">Message</button>
+            <button [class.active]="activeTab === 'apartments'" (click)="setActiveTab('apartments')">Apartments</button>
+            <button [class.active]="activeTab === 'bookmarks'" (click)="setActiveTab('bookmarks')">Bookmarks</button>
+            <button [class.active]="activeTab === 'about'" (click)="setActiveTab('about')">About Me</button>
+        </div>
+
+        <div [ngSwitch]="activeTab">
+            <!-- Messages Tab -->
+            <div class="chat-container" *ngSwitchCase="'messages'">
+                <!-- Left side - Messages list -->
+                <div class="messages-list">
+                    <div class="message-item" 
+                         *ngFor="let msg of messages" 
+                         (click)="selectConversation(msg)"
+                         [class.active]="selectedContact?.id === msg.id">
+                        <img [src]="msg.avatar" class="user-avatar">
+                        <div class="message-info">
+                            <div class="message-header">
+                                <span class="user-name">{{msg.name}}</span>
+                                <span class="message-time">{{msg.time}}</span>
+                            </div>
+                            <div class="message-text">{{msg.content}}</div>
+                        </div>
+                        <div class="message-status">
+                            <span class="unread-badge" *ngIf="msg.unread">{{msg.unread}}</span>
+                            <i class="fas fa-check-double" [class.seen]="msg.seen"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right side - Chat -->
+                <div class="chat-area" *ngIf="selectedContact; else selectConversationPrompt">
+                    <div class="chat-header">
+                        <div class="user-info">
+                            <img [src]="selectedContact.avatar" class="user-avatar-small">
+                            <div class="user-details">
+                                <span class="user-name">{{selectedContact.name}}</span>
+                                <span class="user-type">{{selectedContact.type}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-messages">
+                        <div class="message-bubble" 
+                             *ngFor="let message of selectedContact.conversation"
+                             [ngClass]="{
+                               'received': message.type === 'received',
+                               'sent': message.type === 'sent'
+                             }">
+                            {{message.content}}
+                            <span class="time">{{message.time}}</span>
+                        </div>
+                    </div>
+
+                    <div class="message-input-container">
+                        <input type="text" 
+                               [(ngModel)]="currentMessage" 
+                               (keyup.enter)="sendMessage()"
+                               placeholder="Type your message here...">
+                        <button class="send-btn" (click)="sendMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <ng-template #selectConversationPrompt>
+                    <div class="no-chat-selected">
+                        <p>Select a conversation to start messaging</p>
+                    </div>
+                </ng-template>
+            </div>
+
+            <!-- Apartments Tab -->
+            <div class="apartments-container" *ngSwitchCase="'apartments'">
+                <div class="apartment-list">
+                    <div class="apartment-card" *ngFor="let apt of userApartments">
+                        <div class="apartment-image">
+                            <img [src]="apt.image" alt="Property Image">
+                        </div>
+                        <div class="apartment-details">
+                            <h3>{{apt.title}}</h3>
+                            <p class="location"><i class="fa fa-map-marker"></i> {{apt.location}}</p>
+                            <p class="price">${{apt.price}}/month</p>
+                            <div class="apartment-status">
+                                <span class="status-badge" [ngClass]="apt.status">{{apt.status}}</span>
+                            </div>
+                            <div class="apartment-actions">
+                                <button class="edit-btn" (click)="editApartment(apt)">Edit</button>
+                                <button class="reservations-btn" (click)="openReservationsModal(apt.id)">
+                                    <i class="fas fa-calendar-check"></i> Reserve
+                                </button>
+                                <button class="remove-btn-apt" (click)="removeApartment(apt.id)">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bookmarks Tab -->
+            <div class="bookmarks-section" *ngSwitchCase="'bookmarks'">
+                <h3>My Bookmarks</h3>
+                
+                <div class="bookmarks-container" *ngIf="bookmarks.length > 0">
+                    <div class="bookmark-card" *ngFor="let bookmark of bookmarks">
+                        <div class="bookmark-image">
+                            <img [src]="bookmark.image || 'assets/images/placeholder.jpg'" alt="{{ bookmark.title }}">
+                        </div>
+                        <div class="bookmark-details">
+                            <h4>{{ bookmark.title }}</h4>
+                            <p class="price">{{ bookmark.price | currency }}</p>
+                            <p class="location"><i class="fa fa-map-marker"></i> {{ bookmark.location }}</p>
+                            <div class="property-features">
+                                <span *ngIf="bookmark.bedrooms"><i class="fa fa-bed"></i> {{ bookmark.bedrooms }} Beds</span>
+                                <span *ngIf="bookmark.bathrooms"><i class="fa fa-bath"></i> {{ bookmark.bathrooms }} Baths</span>
+                                <span *ngIf="bookmark.area"><i class="fa fa-expand"></i> {{ bookmark.area }} sq ft</span>
+                            </div>
+                            <div class="bookmark-actions">
+                                <button class="view-btn" (click)="viewPropertyDetails(bookmark.id)">View Details</button>
+                                <button class="remove-btn" (click)="removeBookmark(bookmark.id)">
+                                    <i class="fa fa-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="no-bookmarks" *ngIf="bookmarks.length === 0">
+                    <p>You haven't bookmarked any properties yet.</p>
+                    <button class="browse-btn" routerLink="/rent">Browse Properties</button>
+                </div>
+            </div>
+
+            <!-- About Tab -->
+            <div class="about-container" *ngSwitchCase="'about'">
+                <div class="about-content">
+                    <div class="about-section">
+                        <h3>Bio</h3>
+                        <p>{{aboutInfo.bio}}</p>
+                    </div>
+                    <div class="about-section">
+                        <h3>Contact Information</h3>
+                        <p><strong>Phone:</strong> {{aboutInfo.phone}}</p>
+                        <p><strong>Address:</strong> {{aboutInfo.address}}</p>
+                    </div>
+                    <div class="about-section">
+                        <h3>Member Since</h3>
+                        <p>{{aboutInfo.joinDate}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add modal -->
+<div class="modal" *ngIf="showModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Edit Profile</h2>
+            <button class="close-btn" (click)="closeModal()">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="edit-section">
+                <label>Profile Picture</label>
+                <div class="profile-img-upload">
+                    <img [src]="previewImage" alt="Profile" class="profile-preview">
+                    <input 
+                        type="file" 
+                        id="profile-upload" 
+                        (change)="onChangeProfile($event)" 
+                        accept="image/*"
+                        hidden
+                    >
+                    <button class="upload-img-btn" (click)="triggerFileInput()">Change Picture</button>
+                </div>
+            </div>
+            <div class="edit-section">
+                <label>Name</label>
+                <input 
+                    type="text" 
+                    [(ngModel)]="userName" 
+                    class="edit-input"
+                >
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="cancel-btn" (click)="closeModal()">Cancel</button>
+            <button class="save-btn" (click)="saveChanges()">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<!-- Add apartment edit modal -->
+<div class="modal" *ngIf="showApartmentModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Edit Apartment</h2>
+            <button class="close-btn" (click)="closeApartmentModal()">×</button>
+        </div>
+        <div class="modal-body" *ngIf="editingApartment">
+            <div class="edit-section">
+                <label>Title</label>
+                <input 
+                    type="text" 
+                    [(ngModel)]="editingApartment.title" 
+                    class="edit-input"
+                >
+            </div>
+            <div class="edit-section">
+                <label>Location</label>
+                <input 
+                    type="text" 
+                    [(ngModel)]="editingApartment.location" 
+                    class="edit-input"
+                >
+            </div>
+            <div class="edit-section">
+                <label>Price (per month)</label>
+                <input 
+                    type="number" 
+                    [(ngModel)]="editingApartment.price" 
+                    class="edit-input"
+                >
+            </div>
+            <div class="edit-section">
+                <label>Status</label>
+                <select [(ngModel)]="editingApartment.status" class="edit-input">
+                    <option value="available">Available</option>
+                    <option value="rented">Rented</option>
+                    <option value="pending">Pending</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="cancel-btn" (click)="closeApartmentModal()">Cancel</button>
+            <button class="save-btn" (click)="saveApartmentChanges()">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<!-- Reservations Modal -->
+<div class="modal" *ngIf="showReservationsModal">
+    <div class="modal-content reservation-modal">
+        <div class="modal-header">
+            <h2>Reservation Requests</h2>
+            <button class="close-btn" (click)="closeReservationsModal()">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="reservations-list" *ngIf="selectedPropertyReservations.length > 0">
+                <div class="reservation-card" *ngFor="let reservation of selectedPropertyReservations">
+                    <div class="reservation-header">
+                        <div class="renter-info">
+                            <img [src]="reservation.renterImage || 'assets/profile.jpg'" alt="Renter" class="renter-img">
+                            <div class="renter-details">
+                                <p class="renter-name">{{reservation.renterName || 'Renter'}}</p>
+                                <p class="renter-email">{{reservation.renterEmail || 'Email'}}</p>
+                            </div>
+                        </div>
+                        <span class="status-badge" [ngClass]="reservation.status">{{reservation.status}}</span>
+                    </div>
+                    
+                    <div class="reservation-details">
+                        <div class="reservation-dates">
+                            <div class="date-item">
+                                <span class="date-label">Start Date</span>
+                                <span class="date-value">{{formatDate(reservation.startDate)}}</span>
+                            </div>
+                            <div class="date-item">
+                                <span class="date-label">End Date</span>
+                                <span class="date-value">{{formatDate(reservation.endDate)}}</span>
+                            </div>
+                            <div class="date-item" *ngIf="reservation.status === 'approved'">
+                                <span class="date-label">Remaining</span>
+                                <span class="date-value countdown">
+                                    <i class="fas fa-clock"></i> {{getRemainingDays(reservation.endDate)}} days
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="price-details">
+                            <span class="price-label">Total Amount</span>
+                            <span class="price-value">${{reservation.totalPrice}}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reservation-actions" *ngIf="reservation.status === 'pending'">
+                        <button class="approve-btn" (click)="approveReservation(reservation.id)">
+                            <i class="fas fa-check"></i> Approve
+                        </button>
+                        <button class="reject-btn" (click)="rejectReservation(reservation.id)">
+                            <i class="fas fa-times"></i> Reject
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="no-reservations" *ngIf="selectedPropertyReservations.length === 0">
+                <p>No reservation requests for this property.</p>
+            </div>
+        </div>
+    </div>
+</div>

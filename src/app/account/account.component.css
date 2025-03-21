@@ -1,0 +1,1270 @@
+.account-container {
+    width: 100%;
+    background: white;
+    padding: 60px 40px 20px; /* Increased top padding for nav */
+    position: relative;
+}
+
+.back-arrow {
+    position: absolute;
+    left: 20px;
+    top: 70px; /* Move down to clear nav */
+    color: #666;
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.back-arrow:hover {
+    color: #333;
+}
+
+.chat-card {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 15px; /* Space after back arrow */
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    height: calc(100vh - 140px); /* Adjust height to prevent scrolling */
+}
+
+.profile-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Center align with buttons */
+    margin-bottom: 20px;
+}
+
+.profile-left {
+    display: flex;
+    gap: 12px;
+}
+
+.profile-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.profile-details .name {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 3px;
+}
+
+.profile-details .type,
+.profile-details .email {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 3px;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.profile-actions button {
+    padding: 7px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.profile-actions button:hover {
+    opacity: 0.9;
+}
+
+.change-profile {
+    background: #00BFB3;
+    color: white;
+    border: none;
+}
+
+.edit-name {
+    background: white;
+    border: 1px solid #00BFB3;
+    color: #00BFB3;
+}
+
+.upload-btn {
+    background: #00BFB3;
+    color: white;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.upload-btn:hover {
+    opacity: 0.9;
+}
+
+.nav-tabs {
+    display: flex;
+    gap: 25px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
+    padding: 0 5px;
+}
+
+.nav-tabs button {
+    padding: 8px 0;
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.nav-tabs button:hover {
+    color: #00BFB3;
+}
+
+.nav-tabs button.active {
+    color: #00BFB3;
+}
+
+.nav-tabs button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #00BFB3;
+}
+
+.chat-container {
+    display: flex;
+    gap: 15px;
+    height: calc(100% - 160px); /* Adjust to fit within card */
+}
+
+.messages-list {
+    width: 280px; /* Slightly wider */
+    border-right: 1px solid #eee;
+}
+
+.message-item {
+    display: flex;
+    gap: 8px;
+    padding: 8px 12px;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.message-item:hover {
+    background-color: #f5f5f5;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.message-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2px;
+}
+
+.user-type {
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.message-time {
+    font-size: 9px;
+    color: #666;
+}
+
+.message-text {
+    font-size: 11px;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.message-status {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.unread-badge {
+    background: #00BFB3;
+    color: white;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+}
+
+.chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* For message input positioning */
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    margin-bottom: 60px;
+}
+
+.message-bubble {
+    position: relative;
+    padding: 8px 12px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    line-height: 1.4;
+    width: fit-content; /* Adjust width to content */
+    max-width: 60%; /* Limit maximum width */
+}
+
+.message-bubble.received {
+    background: #f0f2f5;
+    color: #333;
+    border-radius: 18px;
+    margin-right: auto;
+    border-bottom-left-radius: 4px;
+}
+
+.message-bubble.sent {
+    background: #00BFB3;
+    color: white;
+    border-radius: 18px;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+}
+
+.message-bubble .time {
+    position: absolute;
+    font-size: 11px;
+    color: #8e8e8e;
+    bottom: -20px;
+    white-space: nowrap;
+}
+
+.message-bubble.received .time {
+    left: 0;
+}
+
+.message-bubble.sent .time {
+    right: 0;
+}
+
+.message-input-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 15px;
+    background: white;
+    border-top: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.message-input-container input {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: none;
+    background: #f0f2f5;
+    font-size: 12px;
+}
+
+.send-btn {
+    width: 32px;
+    height: 32px;
+    min-width: 32px; /* Prevent shrinking */
+    border-radius: 50%;
+    background: #00BFB3;
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.send-btn:hover {
+    opacity: 0.9;
+}
+
+/* Add arrow styling */
+.arrow-container {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    cursor: pointer;
+}
+
+.arrow-container mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+}
+
+/* Update card styling */
+.profile-card {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.profile-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-info h2 {
+    margin-bottom: 1rem;
+}
+
+.profile-info p {
+    margin: 0.5rem 0;
+}
+
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-left: 2rem;
+}
+
+.action-button {
+    width: 150px;
+}
+
+.profile-img-container {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+}
+
+.profile-img-container:hover::after {
+    content: 'Change';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    border-radius: 50%;
+}
+
+.name-input {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 2px 4px;
+    border: 1px solid #00BFB3;
+    border-radius: 4px;
+    outline: none;
+    margin-bottom: 3px;
+}
+
+.name-input:focus {
+    border-color: #00BFB3;
+    box-shadow: 0 0 0 2px rgba(0,191,179,0.1);
+}
+
+/* Update existing button styles */
+.edit-btn {
+    padding: 7px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    background: #00BFB3;
+    color: white;
+    border: none;
+    transition: opacity 0.2s;
+}
+
+.edit-btn:hover {
+    background: #1976D2;
+    transform: translateY(-1px);
+}
+
+/* Modern Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease-out;
+    padding: 20px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; backdrop-filter: blur(0); }
+    to { opacity: 1; backdrop-filter: blur(4px); }
+}
+
+.modal-content {
+    background: white;
+    border-radius: 16px;
+    width: 95%;
+    max-width: 460px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.3s ease-out;
+    overflow: hidden;
+    position: relative;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+    padding: 24px 28px;
+    border-bottom: 1px solid #f0f2f5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+}
+
+.modal-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1f36;
+    margin: 0;
+    letter-spacing: -0.2px;
+}
+
+.close-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    margin-right: -8px;
+}
+
+.close-btn:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: 28px;
+    background: white;
+}
+
+.edit-section {
+    margin-bottom: 28px;
+    position: relative;
+}
+
+.edit-section:last-child {
+    margin-bottom: 0;
+}
+
+.edit-section label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 12px;
+    letter-spacing: -0.2px;
+}
+
+.profile-img-upload {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s;
+}
+
+.profile-img-upload:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+}
+
+.profile-preview {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.2s;
+}
+
+.profile-preview:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.upload-img-btn {
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    background: white;
+    border: 1px solid #e2e8f0;
+    color: #1e293b;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.upload-img-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+}
+
+.edit-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: all 0.2s;
+    background: #f8fafc;
+    color: #1e293b;
+}
+
+.edit-input:hover {
+    border-color: #cbd5e1;
+}
+
+.edit-input:focus {
+    border-color: #00BFB3;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(0,191,179,0.1);
+    outline: none;
+}
+
+.modal-footer {
+    padding: 24px 28px;
+    border-top: 1px solid #f0f2f5;
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    background: white;
+}
+
+.cancel-btn {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    background: white;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cancel-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #1e293b;
+}
+
+.save-btn {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    background: #00BFB3;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(0,191,179,0.2);
+}
+
+.save-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0,191,179,0.25);
+    background: #00b3a8;
+}
+
+.save-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(0,191,179,0.2);
+}
+
+.message-item {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.message-item:hover {
+    background-color: #f5f5f5;
+}
+
+.message-item.active {
+    background-color: #e8e8e8;
+}
+
+.no-chat-selected {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #666;
+    font-size: 1.1em;
+}
+
+.user-avatar-small {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-type {
+    font-size: 0.8em;
+    color: #666;
+}
+
+.apartment-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.edit-btn, .remove-btn-apt, .reservations-btn {
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s;
+    width: auto;
+    min-width: 70px;
+    text-align: center;
+    flex: none;
+}
+
+.remove-btn-apt {
+    background: transparent;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.remove-btn-apt:hover {
+    background: #e74c3c;
+    color: white;
+    transform: translateY(-1px);
+}
+
+.edit-btn {
+    background: #2196F3;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    min-width: 60px;
+}
+
+.edit-btn:hover {
+    background: #1976D2;
+    transform: translateY(-1px);
+}
+
+.edit-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 4px;
+}
+
+.edit-section {
+    margin-bottom: 16px;
+}
+
+.edit-section label {
+    display: block;
+    margin-bottom: 4px;
+    color: #666;
+}
+
+/* Bookmarks Section */
+.bookmarks-section {
+    margin: 30px 0;
+}
+
+.bookmarks-section h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.bookmarks-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+    gap: 24px;
+    padding: 20px;
+}
+
+.bookmark-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bookmark-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.bookmark-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.bookmark-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.bookmark-card:hover .bookmark-image img {
+    transform: scale(1.05);
+}
+
+.bookmark-details {
+    padding: 16px;
+}
+
+.bookmark-details h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+.bookmark-details .price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #3498db;
+    margin-bottom: 12px;
+}
+
+.bookmark-details .location {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #7f8c8d;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.property-features {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    color: #7f8c8d;
+    font-size: 13px;
+}
+
+.property-features span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.bookmark-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.view-btn, .remove-btn {
+    flex: 1;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.view-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+}
+
+.view-btn:hover {
+    background: #2980b9;
+}
+
+.remove-btn {
+    background: transparent;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+}
+
+.remove-btn:hover {
+    background: #e74c3c;
+    color: white;
+}
+
+.no-bookmarks {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.no-bookmarks p {
+    margin-bottom: 20px;
+    color: #666;
+    font-size: 16px;
+}
+
+.browse-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+}
+
+.browse-btn:hover {
+    background-color: #2980b9;
+}
+
+/* Reservations button in apartment card */
+.reservations-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+}
+
+.reservations-btn i {
+    margin-right: 6px;
+    font-size: 14px;
+}
+
+/* Reservations tab styling */
+.reservations-container {
+    width: 100%;
+    padding: 20px;
+}
+
+.reservations-container h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.reservations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.reservation-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.reservation-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    background-color: #f9f9f9;
+}
+
+.property-info, .renter-info {
+    display: flex;
+    align-items: center;
+}
+
+.property-img, .renter-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+    object-fit: cover;
+    margin-right: 12px;
+}
+
+.renter-img {
+    border-radius: 50%;
+}
+
+.property-details h4 {
+    font-size: 16px;
+    margin: 0 0 5px 0;
+    color: #333;
+}
+
+.renter-name {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 0 3px 0;
+    color: #333;
+}
+
+.renter-email {
+    font-size: 12px;
+    color: #666;
+    margin: 0;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    text-transform: capitalize;
+}
+
+.status-badge.pending {
+    background-color: #ffd54f;
+    color: #7f6000;
+}
+
+.status-badge.approved {
+    background-color: #a5d6a7;
+    color: #1b5e20;
+}
+
+.status-badge.rejected {
+    background-color: #ef9a9a;
+    color: #b71c1c;
+}
+
+.reservation-details {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background-color: white;
+}
+
+.reservation-dates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.date-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.date-label, .price-label {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.date-value, .price-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.date-value.countdown {
+    color: #e53935;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: rgba(229, 57, 53, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(229, 57, 53, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(229, 57, 53, 0);
+    }
+}
+
+.price-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.price-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #00BFB3;
+}
+
+.reservation-actions {
+    display: flex;
+    gap: 10px;
+    padding: 0 15px 15px;
+    justify-content: flex-end;
+}
+
+.approve-btn, .reject-btn {
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.approve-btn {
+    background-color: #4caf50;
+    color: white;
+}
+
+.approve-btn:hover {
+    background-color: #388e3c;
+}
+
+.reject-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.reject-btn:hover {
+    background-color: #d32f2f;
+}
+
+.approve-btn i, .reject-btn i {
+    margin-right: 6px;
+}
+
+.no-reservations {
+    text-align: center;
+    padding: 50px 0;
+    color: #666;
+    font-size: 16px;
+}
+
+/* Reservation Modal Styles */
+.reservation-modal {
+    max-width: 700px;
+    width: 90%;
+    max-height: 80vh;
+}
+
+.reservation-modal .modal-body {
+    max-height: calc(80vh - 140px);
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.reservation-modal .reservations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.reservation-modal .reservation-card {
+    margin-bottom: 10px;
+    animation: fadeInUp 0.3s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.reservations-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-1px);
+}
+
+.apartment-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+    gap: 24px;
+    padding: 20px;
+}
+
+.apartment-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.apartment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.apartment-image {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+}
+
+.apartment-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.apartment-card:hover .apartment-image img {
+    transform: scale(1.05);
+}
+
+.apartment-details {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.apartment-details h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+.apartment-details .location {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #7f8c8d;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.apartment-details .price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #00BFB3;
+    margin-bottom: 12px;
+}
+
+.apartment-status {
+    margin-bottom: 16px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    text-transform: capitalize;
+}
+
+.status-badge.available {
+    background-color: #a5d6a7;
+    color: #1b5e20;
+}
+
+.status-badge.rented {
+    background-color: #90caf9;
+    color: #0d47a1;
+}
+
+.status-badge.pending {
+    background-color: #ffd54f;
+    color: #7f6000;
+}

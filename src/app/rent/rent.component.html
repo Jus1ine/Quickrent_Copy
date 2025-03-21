@@ -1,0 +1,188 @@
+<div class="filter-bar">
+    <div class="filter-group" [class.active]="activeFilter === 'location'" data-filter="location" (click)="toggleFilter('location')">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>Location</span>
+        <span>{{filters.location}}</span>
+        <i class="fas fa-chevron-down"></i>
+        <div class="filter-dropdown" [class.show]="activeFilter === 'location'">
+            <div class="dropdown-content">
+                <div class="dropdown-item" *ngFor="let loc of locations" (click)="selectOption('location', loc)">
+                    {{loc}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="filter-group" (click)="toggleFilter('propertyType')">
+        <i class="fas fa-home"></i>
+        <span>Property Type</span>
+        <span>{{filters.propertyType}}</span>
+        <i class="fas fa-chevron-down"></i>
+        <div class="filter-dropdown" [class.show]="activeFilter === 'propertyType'">
+            <div class="dropdown-content">
+                <div class="dropdown-item" *ngFor="let type of propertyTypes" (click)="selectOption('propertyType', type)">
+                    {{type}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="filter-group" (click)="toggleFilter('price')">
+        <i class="fas fa-dollar-sign"></i>
+        <span>Price</span>
+        <span>{{filters.price}}</span>
+        <i class="fas fa-chevron-down"></i>
+        <div class="filter-dropdown" [class.show]="activeFilter === 'price'">
+            <div class="dropdown-content">
+                <div class="currency-toggle" (click)="$event.stopPropagation()">
+                    <button [class.active]="selectedCurrency === 'PHP'" (click)="selectedCurrency='PHP'">₱</button>
+                    <button [class.active]="selectedCurrency === 'USD'" (click)="selectedCurrency='USD'">$</button>
+                </div>
+                <div class="dropdown-item" *ngFor="let range of getPriceRanges()" (click)="selectOption('price', range)">
+                    {{range}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="filter-group" (click)="toggleFilter('baths')">
+        <i class="fas fa-bath"></i>
+        <span>Baths</span>
+        <span>{{filters.baths}}</span>
+        <i class="fas fa-chevron-down"></i>
+        <div class="filter-dropdown" [class.show]="activeFilter === 'baths'">
+            <div class="dropdown-content">
+                <div class="dropdown-item" *ngFor="let bath of bathOptions" (click)="selectOption('baths', bath)">
+                    {{bath}} Bathroom<span *ngIf="bath !== '1' && bath !== 'Zero'">s</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="filter-group" (click)="toggleFilter('beds')">
+        <i class="fas fa-bed"></i>
+        <span>Beds</span>
+        <span>{{filters.beds}}</span>
+        <i class="fas fa-chevron-down"></i>
+        <div class="filter-dropdown" [class.show]="activeFilter === 'beds'">
+            <div class="dropdown-content">
+                <div class="dropdown-item" *ngFor="let bed of bedOptions" (click)="selectOption('beds', bed)">
+                    {{bed}} Bedroom<span *ngIf="bed !== '1' && bed !== 'Zero'">s</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="filter-group" (click)="toggleFilter('more')">
+        <i class="fas fa-sliders-h"></i>
+        <span>More</span>
+        <span>{{filters.more}}</span>
+        <i class="fas fa-chevron-down"></i>
+        <div class="filter-dropdown" [class.show]="activeFilter === 'more'">
+            <div class="dropdown-content">
+                <div class="dropdown-item" *ngFor="let option of moreOptions" (click)="selectOption('more', option)">
+                    <i class="fas" [ngClass]="{
+                        'fa-couch': option === 'Furnished',
+                        'fa-box-open': option === 'Unfurnished',
+                        'fa-paw': option === 'Pet Friendly',
+                        'fa-parking': option === 'With Parking'
+                    }"></i>
+                    {{option}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="apply-btn" (click)="applyButtonClick()">Apply</button>
+</div>
+
+<div class="content-wrapper">
+    <div class="sort-section">
+        <select #sortSelect class="sort-select" (change)="sortApartments(sortSelect.value)">
+            <option value="">Sort By</option>
+            <option value="price_high">Price High to Low</option>
+            <option value="price_low">Price Low to High</option>
+        </select>
+    </div>
+
+    <div class="apartment-grid">
+        <div class="apartment-card" *ngFor="let apartment of getCurrentPageItems(); trackBy: trackByApartmentId">
+            <div class="card-tag">For Rent</div>
+            <div class="property-type">
+                <span class="type-badge">
+                    <i class="fas" [ngClass]="{
+                        'fa-building': apartment.type === 'apartment',
+                        'fa-home': apartment.type === 'house',
+                        'fa-city': apartment.type === 'condo',
+                        'fa-door-open': apartment.type === 'studio'
+                    }"></i>
+                    {{apartment.type | titlecase}}
+                </span>
+            </div>
+            <img [src]="getImageUrl(apartment.imageUrl)" alt="Property Image" >
+            <div class="apartment-details">
+                <h4>{{apartment.name}}</h4>
+                <p class="location">{{apartment.location}}</p>
+                <div class="rating-display" *ngIf="apartment.rating">
+                    <div class="stars">
+                        <i class="fas fa-star" *ngFor="let star of [1,2,3,4,5]" [class.active]="star <= (apartment.rating || 0)"></i>
+                    </div>
+                    <span class="rating-count">{{apartment.totalRatings || 0}} reviews</span>
+                </div>
+                <div class="features">
+                    <span><i class="fas fa-square"></i> {{apartment.area}}</span>
+                    <span><i class="fas fa-bed"></i> {{apartment.bedrooms}} Bedrooms</span>
+                    <span><i class="fas fa-bath"></i> {{apartment.bathrooms}} Bathrooms</span>
+                    <span><i class="fas fa-car"></i> {{apartment.features.includes('hasParking') ? '1' : '0'}} Parking</span>
+                </div>
+                <div class="price-section">
+                    <span class="price">
+                        {{selectedCurrency === 'PHP' ? '₱' : '$'}}{{convertPrice(apartment.price)}}
+                    </span>
+                    <button class="check-btn" (click)="navigateToDescription(apartment.id)">Check</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pagination" *ngIf="totalPages > 1">
+        <button class="page-btn" 
+                [disabled]="currentPage === 1"
+                (click)="changePage(currentPage - 1)">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <button class="page-btn" 
+                *ngFor="let page of getPageNumbers()" 
+                [class.active]="page === currentPage"
+                (click)="changePage(page)">
+            {{page}}
+        </button>
+        
+        <button class="page-btn" 
+                [disabled]="currentPage === totalPages"
+                (click)="changePage(currentPage + 1)">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</div>
+
+<div class="chat-widget" [class.open]="isChatOpen">
+    <div class="chat-header">
+        <div class="chat-title">
+            <img src="/assets/chatbot.png" alt="AI" class="bot-avatar">
+            <span class="bot-name">QuickBot</span>
+        </div>
+        <button class="close-btn" (click)="toggleChat()">×</button>
+    </div>
+    
+    <div class="chat-messages" #chatMessages>
+        <div class="message" *ngFor="let msg of messages" [class.bot]="msg.type === 'bot'" [class.user]="msg.type === 'user'">
+            <img *ngIf="msg.type === 'bot'" src="/assets/chatbot.png" alt="AI" class="message-avatar">
+            <div class="message-content">{{msg.content}}</div>
+            <div class="message-time">{{msg.time}}</div>
+        </div>
+    </div>
+
+    <div class="options" *ngIf="messages[messages.length-1]?.type === 'bot'">
+        <button class="option-btn" *ngFor="let i of [1,2,3]" (click)="selectChoice(i)">Choice {{i}}</button>
+    </div>
+</div>
+
+<div class="message-icon" (click)="toggleChat()" *ngIf="!isChatOpen">
+    <img src="/assets/chatbot.png" alt="Chat">
+</div>

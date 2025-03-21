@@ -1,0 +1,262 @@
+:host {
+    display: block;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #00BFB3 0%, #7fba3d 100%);
+    min-height: 400px;
+    position: relative;
+    padding: 60px 20px;
+    overflow: hidden;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    margin-top: 40px;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: white;
+    border-radius: 100% 100% 0 0;
+}
+
+.hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-content h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.hero-content p {
+    font-size: 24px;
+    margin-bottom: 30px;
+    line-height: 1.4;
+}
+
+.search-box {
+    display: flex;
+    max-width: 500px;
+    background: white;
+    border-radius: 25px;
+    overflow: hidden;
+    padding: 5px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+.search-box button {
+    background: #00BFB3;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.recommendations {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.section-header {
+    margin-bottom: 30px;
+}
+
+.section-header h2 {
+    color: #00BFB3;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.section-header h3 {
+    font-size: 24px;
+    color: #333;
+}
+
+.property-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.apartment-card {
+    background: white;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.apartment-card.highlighted {
+    box-shadow: 0 0 0 2px #00BFB3, 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateY(-4px);
+}
+
+.card-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    z-index: 2;
+}
+
+.apartment-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    object-position: center;
+    background-color: #f5f5f5;
+}
+
+.apartment-details {
+    padding: 16px;
+}
+
+.apartment-details h4 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.location {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.rating-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.stars {
+    display: flex;
+    gap: 2px;
+}
+
+.stars i {
+    color: #ddd;
+    font-size: 14px;
+}
+
+.stars i.active {
+    color: #FFD700;
+}
+
+.rating-count {
+    font-size: 12px;
+    color: #666;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.features span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    font-size: 14px;
+}
+
+.features i {
+    color: #00BFB3;
+}
+
+.price-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px solid #E0E0E0;
+}
+
+.price {
+    color: #00BFB3;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.check-btn {
+    background: #00BFB3;
+    color: white;
+    border: none;
+    padding: 8px 24px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.check-btn:hover {
+    background: #00a59a;
+}
+
+.discover-btn {
+    background-color: #00BFB3;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.discover-btn:hover {
+    background-color: #009688;
+}
+
+@media (max-width: 1024px) {
+    .property-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .property-grid {
+        grid-template-columns: 1fr;
+    }
+}
